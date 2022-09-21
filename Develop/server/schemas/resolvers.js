@@ -41,19 +41,33 @@ const resolvers = {
 
         saveBook: async (parent, {input}, context) => {
             if (context.user) {
-                const book = Book.findOne({input})
-                const user = await User.findById(context.user._id, { $push: {savedBooks: book}})
+                const updatedUser = await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$addToSet: { savedBooks: input}},
+                    { new: true}
+                )
 
-                return user
+                return updatedUser
             }
 
-            throw new AuthenticationError('Not logged in')
+            throw new AuthenticationError("It looks like you're not logged in...")
         },
 
         removeBook: async (parent, {bookId}, context) => {
-            const user = await User.findByIdAndUpdate(context.user._id, bookId, { new: true })
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$pull: { savedBooks: {bookId: bookId}}},
+                    { new: true }
+                )
+                if (!updatedUser) {
+                    throw new AuthenticationError("Unable to find a user with this id!")
+                }
 
-            return user
+                return updatedUser
+            }
+
+            throw new AuthenticationError("It looks like you're not logged in...")
         }
     }
 }
