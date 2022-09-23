@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvidor,
+  ApolloProvider,
   createHttpLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
@@ -32,7 +32,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvidor client={client}>
+    <ApolloProvider client={client}>
     <Router>
       <>
         <Navbar />
@@ -43,7 +43,7 @@ function App() {
         </Switch>
       </>
     </Router>
-    </ApolloProvidor>
+    </ApolloProvider>
   );
 }
 

@@ -13,8 +13,8 @@ export const LOGIN = gql`
 
 export const ADD_USER = gql`
   mutation addUser(
-    $username
-    $email: String!
+    $username: String!,
+    $email: String!,
     $password: String!
   ) {
     addUser(
@@ -32,11 +32,11 @@ export const ADD_USER = gql`
 
 export const SAVE_BOOK = gql`
     mutation saveBook(
-        $authors: [""]!
-        $description: String!
-        $title: String!
-        $bookId: String!
-        $image: String
+        $authors: [String]!,
+        $description: String!,
+        $title: String!,
+        $bookId: String!,
+        $image: String,
         $link: String!
     ) {
         saveBook(
