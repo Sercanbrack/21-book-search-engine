@@ -10,7 +10,6 @@ import {
   createHttpLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { getSavedBookIds, saveBookIds, removeBookId } from './utils/localStorage'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -33,7 +32,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvidor>
+    <ApolloProvidor client={client}>
     <Router>
       <>
         <Navbar />
@@ -44,6 +43,7 @@ function App() {
         </Switch>
       </>
     </Router>
+    </ApolloProvidor>
   );
 }
 

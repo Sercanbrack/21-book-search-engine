@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express')
 
 const typeDefs = gql`
     input bookInput {
-        authors: [""]!
+        authors: [String]!
         description: String!
         title: String!
         bookId: String!
@@ -20,7 +20,7 @@ const typeDefs = gql`
     
     type Book {
         bookId: String
-        authors: [""]
+        authors: [String]
         description: String
         title: String
         image: String
