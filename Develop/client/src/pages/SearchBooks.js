@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { useMutation } from '@apollo/client'
+import { SAVE_BOOK } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
@@ -10,6 +12,7 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
+  const [saveTheBook] = useMutation(SAVE_BOOK);
 
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
@@ -54,15 +57,12 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
-    const [formState, setFormState] = useState({ bookId: bookId });
-    const [saveTheBook] = useMutation(SAVE_BOOK); 
-
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
+    const variableName = searchedBooks.find((book) => book.bookId === bookId)
+     
       try {
       const mutationResponse = await saveTheBook({
         variables: {
-          bookId: formState.bookId,
+          bookId: { bookData: { ...variableName } }
         },
       })
       const token = mutationResponse.data.saveTheBook.token;
@@ -70,15 +70,7 @@ const SearchBooks = () => {
     } catch (e) {
       console.log(e)
     }
-  };
-
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      setFormState({
-        ...formState,
-        [name]: value,
-      })
-    }
+ 
   };
 
   return (
