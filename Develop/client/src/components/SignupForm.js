@@ -30,7 +30,7 @@ const SignupForm = () => {
         username: userFormData.username,
       },
     })
-    const token = mutationResponse.data.signUp.token;
+    const token = mutationResponse.data.addUser.token;
     Auth.login(token)
   } catch (e) {
     console.log(e)
